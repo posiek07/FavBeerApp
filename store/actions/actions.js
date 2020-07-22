@@ -21,11 +21,22 @@ export const fetchBeersFail = (error) => {
   };
 };
 
+export const setFilters = (filtersSettings) => {
+  return {
+    type: actionTypes.SET_FILTERS,
+    filters: filtersSettings,
+  };
+};
+
+export const toggleFavorite = (id) => {
+  return {type: TOGGLE_FAVORITE, mealId: id};
+};
+
 export const fetchBeers = () => {
   return (dispatch) => {
     dispatch(fetchBeersStart());
     axios
-      .get('https://api.punkapi.com/v2/beers')
+      .get(' https://api.punkapi.com/v2/beers?page=1&per_page=80')
       .then((res) => {
         dispatch(fetchBeersSuccess(res.data));
       })
