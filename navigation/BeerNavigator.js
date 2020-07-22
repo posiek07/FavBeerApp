@@ -5,14 +5,12 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import MainScreen from '../screens/MainScreen';
 import OtherScreen from '../screens/OtherScreen';
-import OtherScreen2 from '../screens/OtherScreen2';
+import BeerDetails from '../screens/BeerDetails';
 import {Text, Platform} from 'react-native';
 import Colors from '../constants/Colors';
 import OtherScreen3 from '../screens/OtherScreen3';
 import React from 'react';
 import OtherScreen4 from '../screens/OtherScreen4';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import CustomHeaderButton from '../components/CustomHeaderButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const defaultNavOptions = {
@@ -39,7 +37,7 @@ const BeersNavigator = createStackNavigator(
     CategoryBeers: {
       screen: OtherScreen,
     },
-    BeerDetail: OtherScreen2,
+    BeerDetails: BeerDetails,
   },
   {
     // initialRouteName: "Categories",
@@ -50,7 +48,7 @@ const BeersNavigator = createStackNavigator(
 const FavNavigator = createStackNavigator(
   {
     Favorites: OtherScreen3,
-    BeerDetail: OtherScreen2,
+    BeerDetails: BeerDetails,
   },
   {
     defaultNavigationOptions: defaultNavOptions,

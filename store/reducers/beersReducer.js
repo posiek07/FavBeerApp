@@ -3,6 +3,7 @@ import {updateObject} from '../../shared/utility';
 
 const initialState = {
   beers: [],
+  filteredBeers: [],
   loading: false,
 };
 
@@ -11,7 +12,11 @@ const fetchBeersStart = (state, action) => {
 };
 
 const fetchBeersSuccess = (state, action) => {
-  return updateObject(state, {loading: false, beers: action.beers});
+  return updateObject(state, {
+    loading: false,
+    beers: action.beers,
+    filteredBeers: action.beers,
+  });
 };
 
 const fetchBeersFail = (state, action) => {
@@ -26,6 +31,25 @@ const reducer = (state = initialState, action) => {
       return fetchBeersSuccess(state, action);
     case actionTypes.FETCH_BEERS_FAIL:
       return fetchBeersFail(state, action);
+    case actionTypes.SET_FILTERS:
+      const appliedFilters = action.filters;
+      const filteredBeers = state.beers.filter((beer) => {
+        if (appliedFilters.abv <= beer.abv) {
+          return false;
+        }
+        if (
+          beer.name.toLowerCase().includes(appliedFilters.search.toLowerCase())
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+        return true;
+      });
+      return {
+        ...state,
+        filteredBeers: filteredBeers,
+      };
     default:
       return state;
   }

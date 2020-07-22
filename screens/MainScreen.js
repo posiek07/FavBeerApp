@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
-  Button,
   Text,
   Image,
+  Pressable,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from '../store/actions/actions';
@@ -15,55 +14,75 @@ import CustomHeaderButton from '../components/CustomHeaderButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Card} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
+import BeerHeader from '../components/BeerHeader';
 
-const mainScreen = () => {
+const mainScreen = (props) => {
   const myIcon = <Icon name="rocket" size={30} color="#900" />;
 
-  const beers = useSelector((state) => state.beers.beers);
+  const beers = useSelector((state) => state.beers.filteredBeers);
   const dispatch = useDispatch();
 
   const fetchData = () => {
     dispatch(actions.fetchBeers());
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const cards = (itemData) => (
-    <Card key={itemData.item.id} title={itemData.item.name}>
-      <View style={styles.imageWrap}>
-        <Image
-          resizeMode="contain"
-          source={{uri: itemData.item.image_url}}
-          style={styles.image}
-        />
-      </View>
-      {/* <Text numberOfLines={5} style={{marginBottom: 10}}>
-        {itemData.item.description}
-      </Text> */}
-      <Text>{itemData.item.tagline}</Text>
-      <Text>{itemData.item.method.fermentation.temp.value}</Text>
-      <Button
-        icon={<Icon name="code" color="#ffffff" />}
-        buttonStyle={{
-          borderRadius: 0,
-          marginLeft: 0,
-          marginRight: 0,
-          marginBottom: 0,
-        }}
-        title="VIEW NOW"
-      />
-    </Card>
+    <View style={styles.cardWrapper}>
+      <Pressable
+        onPress={() => {
+          props.navigation.navigate({
+            routeName: 'BeerDetails',
+            params: {
+              beerId: itemData.item.id,
+              beerTitle: itemData.item.title,
+              // isFav: isFavorite,
+            },
+          });
+        }}>
+        <Card
+          containerStyle={{
+            padding: 3,
+            margin: 5,
+            flex: 1,
+            flexDirection: 'column',
+          }}
+          key={itemData.item.id}
+          title={itemData.item.name}
+          titleStyle={styles.cardTitle}
+          titleNumberOfLines={3}>
+          <View style={styles.imageWrap}>
+            <Image
+              resizeMode="contain"
+              source={{uri: itemData.item.image_url}}
+              style={styles.image}
+            />
+          </View>
+          <View style={{marginTop: 20}}>
+            <Text style={{fontFamily: 'Roboto-Italic'}}>
+              {itemData.item.tagline}
+            </Text>
+          </View>
+        </Card>
+      </Pressable>
+    </View>
   );
 
   return (
     <>
       <SafeAreaView>
-        <Button title="Show beers" onPress={() => fetchData()} />
         <FlatList
+          ListHeaderComponent={BeerHeader}
           style={{margin: 3}}
           data={beers}
           numColumns={2}
           keyExtractor={(item) => item.id}
           renderItem={cards}
-          columnWrapperStyle={styles.cardWrapper}
+          initialNumToRender={2}
+          columnWrapperStyle={styles.columnWrapper}
         />
       </SafeAreaView>
     </>
@@ -94,19 +113,28 @@ const styles = StyleSheet.create({
   },
   imageWrap: {
     flex: 1,
-    justifyContent: 'center',
-    height: 120,
+    justifyContent: 'flex-start',
+    height: 200,
     width: '100%',
   },
   cardWrapper: {
-    flex: 0.5,
-    justifyContent: 'space-between',
-    width: '50%',
+    flex: 1,
+    justifyContent: 'flex-start',
+    margin: 0,
   },
   image: {
     flex: 1,
     width: '100%',
     height: '100%',
+  },
+  cardTitle: {
+    fontFamily: 'Frijole-Regular',
+    fontWeight: 'normal',
+    fontSize: 15,
+    minHeight: 65,
+  },
+  columnWrapper: {
+    minHeight: 300,
   },
 });
 
