@@ -7,29 +7,28 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const otherScreen4 = () => {
   return (
     <View>
-      <Text>otherScreen4</Text>
+      <Text>Favorites</Text>
     </View>
   );
 };
 
 otherScreen4.navigationOptions = (navData) => {
-    return {
-      headerTitle: 'Search',
-      headerLeft: () => (
-        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-          <Item
-            title="Menu"
-            iconName="menu-outline"
-            color="white"
-            onPress={() => {
-              navData.navigation.toggleDrawer();
-            }}
-          />
-        </HeaderButtons>
-      ),
-    };
+  return {
+    headerTitle: 'Favorites',
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          title="Menu"
+          iconName="menu-outline"
+          color="white"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
-  
 
 const styles = StyleSheet.create({});
 
