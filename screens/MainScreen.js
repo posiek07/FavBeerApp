@@ -11,14 +11,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as actions from '../store/actions/actions';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/CustomHeaderButton';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {Card} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 import BeerHeader from '../components/BeerHeader';
 
 const mainScreen = (props) => {
-  const myIcon = <Icon name="rocket" size={30} color="#900" />;
-
   const beers = useSelector((state) => state.beers.filteredBeers);
   const dispatch = useDispatch();
 
@@ -38,7 +35,7 @@ const mainScreen = (props) => {
             routeName: 'BeerDetails',
             params: {
               beerId: itemData.item.id,
-              beerTitle: itemData.item.title,
+              beerTitle: itemData.item.name,
               // isFav: isFavorite,
             },
           });
@@ -118,7 +115,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   cardWrapper: {
-    flex: 1,
+    flex: 0.5,
     justifyContent: 'flex-start',
     margin: 0,
   },

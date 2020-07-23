@@ -4,13 +4,12 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import MainScreen from '../screens/MainScreen';
-import OtherScreen from '../screens/OtherScreen';
 import BeerDetails from '../screens/BeerDetails';
 import {Text, Platform} from 'react-native';
 import Colors from '../constants/Colors';
-import OtherScreen3 from '../screens/OtherScreen3';
+import RatedBeers from '../screens/RatedBeers';
 import React from 'react';
-import OtherScreen4 from '../screens/OtherScreen4';
+import FavouritesScreen from '../screens/FavouriteScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const defaultNavOptions = {
@@ -31,11 +30,8 @@ const BeersNavigator = createStackNavigator(
     Categories: {
       screen: MainScreen,
       navigationOptions: {
-        headerTitle: 'Main Screen',
+        headerTitle: 'All Beers',
       },
-    },
-    CategoryBeers: {
-      screen: OtherScreen,
     },
     BeerDetails: BeerDetails,
   },
@@ -45,9 +41,9 @@ const BeersNavigator = createStackNavigator(
   },
 );
 
-const FavNavigator = createStackNavigator(
+const RateNavigator = createStackNavigator(
   {
-    Favorites: OtherScreen3,
+    RatedBeers: RatedBeers,
     BeerDetails: BeerDetails,
   },
   {
@@ -73,21 +69,21 @@ const tabScreenConfig = {
           ),
       },
     },
-    Favorites: {
-      screen: FavNavigator,
+    RatedBeers: {
+      screen: RateNavigator,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
           return (
             <Icon title="Menu" name="star-outline" color="white" size={25} />
           );
         },
-        tabBarLabel: 'Favorites!',
+        tabBarLabel: 'RatedBeers!',
         tabBarColor: Colors.accent,
         tabBarLabel:
           Platform.OS === 'android' ? (
-            <Text style={{fontFamily: 'open-sans-bold'}}>Favorites</Text>
+            <Text style={{fontFamily: 'open-sans-bold'}}>Rated Beers</Text>
           ) : (
-            'Favorites'
+            'Rated Beers'
           ),
       },
     },
@@ -107,13 +103,13 @@ const tabScreenConfig = {
           },
         });
 
-const FiltersNavigator = createStackNavigator(
+const FavouritesNavigator = createStackNavigator(
   {
-    Filters: OtherScreen4,
+    Favourites: FavouritesScreen,
   },
   {
     navigationOptions: {
-      drawerLabel: 'Search',
+      drawerLabel: 'Favorites',
     },
     defaultNavigationOptions: defaultNavOptions,
   },
@@ -122,7 +118,7 @@ const FiltersNavigator = createStackNavigator(
 const MainNavigator = createDrawerNavigator(
   {
     Beers: BottomNavigator,
-    Filters: FiltersNavigator,
+    Favourites: FavouritesNavigator,
   },
   {
     contentOptions: {

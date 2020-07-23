@@ -48,7 +48,7 @@ const BeerHeader = (props) => {
           thumbTintColor={Colors.primary}
         />
         <Text>Max ABV: {abv}%</Text>
-        <Button title="Apply" onPress={saveFilters} />
+        <Button color={Colors.primary} title="Apply" onPress={saveFilters} />
       </View>
       <SearchBar
         placeholder="Type Here..."
