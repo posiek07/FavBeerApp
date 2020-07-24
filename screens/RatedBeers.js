@@ -13,6 +13,21 @@ const RatedBeers = (props) => {
   const beers = useSelector((state) => state.beers.filteredBeers);
   const dispatch = useDispatch();
 
+  const beersFavRate = useSelector((state) => state.beers.beersFavRate);
+
+  const ratedResult = beersFavRate
+    .map((object) => object)
+    .filter((object) => Number.isFinite(object.rating))
+    .map((object) => object.id);
+
+  console.log(ratedResult);
+
+  const ratedBeers = beers.filter((beer) => {
+    if (ratedResult.includes(beer.id)) {
+      return beer;
+    }
+  });
+
   const fetchData = () => {
     dispatch(actions.fetchBeers());
   };
@@ -44,7 +59,7 @@ const RatedBeers = (props) => {
       <SafeAreaView>
         <FlatList
           style={{margin: 3}}
-          data={beers}
+          data={ratedBeers}
           numColumns={1}
           keyExtractor={(item) => item.id.toString()}
           renderItem={cards}

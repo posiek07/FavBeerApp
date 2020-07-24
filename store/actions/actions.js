@@ -28,8 +28,8 @@ export const setFilters = (filtersSettings) => {
   };
 };
 
-export const toggleFavorite = (id) => {
-  return {type: TOGGLE_FAVORITE, mealId: id};
+export const updateRateFav = (beerFavRate) => {
+  return {type: actionTypes.TOGGLE_FAVORITE, beerFavRate: beerFavRate};
 };
 
 export const fetchBeers = () => {

@@ -1,59 +1,150 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
-import {useSelector} from 'react-redux';
+import React, {useState, useEffect, useCallback} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import Colors from '../constants/Colors';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {ScrollView} from 'react-native-gesture-handler';
 import DefaultText from '../components/DefaultText';
+import {Rating} from 'react-native-elements';
+import {updateRateFav} from '../store/actions/actions';
 
 const dimensions = Dimensions.get('screen');
 
 const BeerDetails = (props) => {
+  const [rating, setRating] = useState();
+  const [favorite, setFavorite] = useState();
+
+  const dispatch = useDispatch();
+
   const avalibleBeers = useSelector((state) => state.beers.beers);
+  const rateFavBeers = useSelector((state) => state.beers.beersFavRate);
+
   const beerId = props.navigation.getParam('beerId');
 
   const selectedBeer = avalibleBeers.find((beer) => beer.id === beerId);
 
+  const selectedFavRate = rateFavBeers.find((object) => object.id === beerId);
+
+  const toggleBeerFav = (status) => {
+    setFavorite(status);
+    dispatch(
+      updateRateFav({
+        id: selectedBeer.id,
+        favorite: status,
+        rating: rating,
+      }),
+    );
+  };
+
+  const toggleBeerRate = useCallback(
+    (score) => {
+      setRating(score);
+      setFavorite(favorite);
+      dispatch(
+        updateRateFav({
+          id: selectedBeer.id,
+          rating: score,
+          favorite: favorite,
+        }),
+      );
+    },
+    [setRating, dispatch, favorite],
+  );
+  console.log('hello from details');
+  useEffect(() => {
+    setFavorite(selectedFavRate.favorite);
+    console.log(favorite);
+    setRating(selectedFavRate.rating);
+    console.log(rating);
+  }, []);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.imageWrapper}>
-          <Image source={{uri: selectedBeer.image_url}} style={styles.image} />
-        </View>
-        <View style={styles.descriptionWrapper}>
-          <Text style={styles.name}>{selectedBeer.name}</Text>
-          <Text style={styles.tagline}>"{selectedBeer.tagline}"</Text>
-          <DefaultText myStyle={styles.bigDetailsTitle}>ABV:</DefaultText>
-          <Text style={styles.bigDetailsValue}>
-            <Icon
-              title="flash"
-              name="flash-outline"
-              color={Colors.primary}
-              size={35}
+    <View>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.imageWrapper}>
+            <Image
+              source={{uri: selectedBeer.image_url}}
+              style={styles.image}
             />
-            {selectedBeer.abv}%
-          </Text>
-          <DefaultText myStyle={styles.bigDetailsTitle}>
-            First Brewed:
-          </DefaultText>
-          <DefaultText myStyle={styles.bigDetailsValue}>
-            <Icon
-              title="today"
-              name="today-outline"
-              color={Colors.primary}
-              size={35}
-            />
-            {selectedBeer.first_brewed}
-          </DefaultText>
-          <DefaultText>{selectedBeer.description}</DefaultText>
+          </View>
+          <View style={styles.descriptionWrapper}>
+            <Text style={styles.name}>{selectedBeer.name}</Text>
+            <Text style={styles.tagline}>"{selectedBeer.tagline}"</Text>
+            <View>
+              <Rating
+                showRating
+                onFinishRating={(score) => toggleBeerRate(score)}
+                fractions={1}
+                startingValue={rating}
+                ratingBackgroundColor="#fcfcfc"
+                type="custom"
+                // tintColor="#d6d6d6"
+              />
+            </View>
+            <DefaultText myStyle={styles.bigDetailsTitle}>ABV:</DefaultText>
+            <Text style={styles.bigDetailsValue}>
+              <Icon
+                title="flash"
+                name="flash-outline"
+                color={Colors.primary}
+                size={35}
+              />
+              {selectedBeer.abv}%
+            </Text>
+            <DefaultText myStyle={styles.bigDetailsTitle}>
+              First Brewed:
+            </DefaultText>
+            <DefaultText myStyle={styles.bigDetailsValue}>
+              <Icon
+                title="today"
+                name="today-outline"
+                color={Colors.primary}
+                size={35}
+              />
+              {selectedBeer.first_brewed}
+            </DefaultText>
+            <DefaultText>{selectedBeer.description}</DefaultText>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.TouchableOpacityStyle}>
+        {!favorite ? (
+          <Icon
+            title="heart"
+            name="heart-outline"
+            color="salmon"
+            size={35}
+            style={styles.FloatingButtonStyle}
+            onPress={() => toggleBeerFav(true)}
+          />
+        ) : (
+          <Icon
+            title="heart"
+            name="heart"
+            color="salmon"
+            size={35}
+            style={styles.FloatingButtonStyle}
+            onPress={() => toggleBeerFav(false)}
+          />
+        )}
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fcfcfc',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -94,8 +185,31 @@ const styles = StyleSheet.create({
   },
   bigDetailsTitle: {
     fontSize: 20,
+    paddingTop: 15,
   },
   description: {},
+  MainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5F5F5',
+  },
+
+  TouchableOpacityStyle: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 5,
+    top: 5,
+  },
+
+  FloatingButtonStyle: {
+    width: 32,
+    height: 50,
+    //backgroundColor:'black'
+  },
 });
 
 BeerDetails.navigationOptions = (navigationData) => {

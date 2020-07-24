@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
-import FilterSwitch from '../components/FilterSwitch';
 import {useDispatch} from 'react-redux';
 import {setFilters} from '../store/actions/actions';
 import {Slider, SearchBar} from 'react-native-elements';
