@@ -9,7 +9,7 @@ import {Text, Platform} from 'react-native';
 import Colors from '../constants/Colors';
 import RatedBeers from '../screens/RatedBeers';
 import React from 'react';
-import FavouritesScreen from '../screens/FavouriteScreen';
+import FavouritesScreen from '../screens/FavoriteScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const defaultNavOptions = {
@@ -106,6 +106,7 @@ const tabScreenConfig = {
 const FavouritesNavigator = createStackNavigator(
   {
     Favourites: FavouritesScreen,
+    BeerDetails: BeerDetails,
   },
   {
     navigationOptions: {
