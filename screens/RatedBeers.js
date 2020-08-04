@@ -49,7 +49,7 @@ const RatedBeers = (props) => {
           },
         });
       }}>
-      <ListItem item={itemData.item} />
+      <ListItem item={itemData.item}  />
     </Pressable>
     // </View>
   );

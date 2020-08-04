@@ -1,10 +1,17 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, useWindowDimensions} from 'react-native';
 import {Rating} from 'react-native-elements';
+import {useSelector} from 'react-redux';
 
 // const windowHeight = useWindowDimensions().height;
 
 const ListItem = (props) => {
+  const rateFavBeers = useSelector((state) => state.beers.beersFavRate);
+  const beerId = props.item.id;
+
+  const listItem = rateFavBeers.find((object) => object.id === beerId);
+
+  console.log(props);
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
@@ -17,7 +24,7 @@ const ListItem = (props) => {
           <Rating
             imageSize={20}
             readonly
-            startingValue={3}
+            startingValue={listItem.rating}
             style={styles.rating}
             ratingBackgroundColor="#d6d6d6"
           />
