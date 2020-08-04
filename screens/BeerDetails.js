@@ -46,7 +46,6 @@ const BeerDetails = (props) => {
   const toggleBeerRate = useCallback(
     (score) => {
       setRating(score);
-      setFavorite(favorite);
       dispatch(
         updateRateFav({
           id: selectedBeer.id,
@@ -59,9 +58,9 @@ const BeerDetails = (props) => {
   );
   console.log('hello from details');
   useEffect(() => {
-    setFavorite(selectedFavRate.favorite);
+    selectedFavRate ? setFavorite(selectedFavRate.favorite) : null;
     console.log(favorite);
-    setRating(selectedFavRate.rating);
+    selectedFavRate ? setRating(selectedFavRate.rating) : null;
     console.log(rating);
   }, []);
 
