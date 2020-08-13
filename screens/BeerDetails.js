@@ -46,22 +46,20 @@ const BeerDetails = (props) => {
   const toggleBeerRate = useCallback(
     (score) => {
       setRating(score);
+      setFavorite(favorite);
       dispatch(
         updateRateFav({
           id: selectedBeer.id,
           rating: score,
-          favorite: favorite,
         }),
       );
     },
-    [setRating, dispatch, favorite],
+    [setRating, dispatch],
   );
   console.log('hello from details');
   useEffect(() => {
     selectedFavRate ? setFavorite(selectedFavRate.favorite) : null;
-    console.log(favorite);
     selectedFavRate ? setRating(selectedFavRate.rating) : null;
-    console.log(rating);
   }, []);
 
   return (
@@ -115,7 +113,7 @@ const BeerDetails = (props) => {
         </View>
       </ScrollView>
       <TouchableOpacity
-        activeOpacity={0.7}
+        activeOpacity={0.1}
         style={styles.TouchableOpacityStyle}>
         {!favorite ? (
           <Icon
@@ -207,6 +205,7 @@ const styles = StyleSheet.create({
   FloatingButtonStyle: {
     width: 32,
     height: 50,
+    opacity: 0.7,
     //backgroundColor:'black'
   },
 });
