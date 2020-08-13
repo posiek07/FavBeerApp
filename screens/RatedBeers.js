@@ -16,8 +16,10 @@ const RatedBeers = (props) => {
   const beersFavRate = useSelector((state) => state.beers.beersFavRate);
 
   const ratedResult = beersFavRate
-    .map((object) => object)
     .filter((object) => Number.isFinite(object.rating))
+    .sort((a, b) => {
+      return a.rating - b.rating;
+    })
     .map((object) => object.id);
 
   console.log(ratedResult);
@@ -27,7 +29,6 @@ const RatedBeers = (props) => {
       return beer;
     }
   });
-
   const fetchData = () => {
     dispatch(actions.fetchBeers());
   };
@@ -49,7 +50,7 @@ const RatedBeers = (props) => {
           },
         });
       }}>
-      <ListItem item={itemData.item}  />
+      <ListItem item={itemData.item} />
     </Pressable>
     // </View>
   );
