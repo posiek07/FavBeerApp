@@ -63,12 +63,18 @@ const reducer = (state = initialState, action) => {
       );
       if (existingIndex >= 0) {
         const updatedFavRateBeers = [...state.beersFavRate];
-        console.log(action.beerFavRate);
-        updatedFavRateBeers[existingIndex] = action.beerFavRate;
+        typeof action.beerFavRate.favorite !== 'undefined'
+          ? (updatedFavRateBeers[existingIndex].favorite =
+              action.beerFavRate.favorite)
+          : null;
+        action.beerFavRate.rating
+          ? (updatedFavRateBeers[existingIndex].rating =
+              action.beerFavRate.rating)
+          : null;
         return {...state, beersFavRate: updatedFavRateBeers};
       } else {
         const beerFavRate = action.beerFavRate;
-        console.log(beerFavRate);
+        console.log;
         return {...state, beersFavRate: state.beersFavRate.concat(beerFavRate)};
       }
     default:

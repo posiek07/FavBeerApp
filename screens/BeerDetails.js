@@ -18,9 +18,6 @@ import {updateRateFav} from '../store/actions/actions';
 const dimensions = Dimensions.get('screen');
 
 const BeerDetails = (props) => {
-  const [rating, setRating] = useState();
-  const [favorite, setFavorite] = useState();
-
   const dispatch = useDispatch();
 
   const avalibleBeers = useSelector((state) => state.beers.beers);
@@ -32,36 +29,36 @@ const BeerDetails = (props) => {
 
   const selectedFavRate = rateFavBeers.find((object) => object.id === beerId);
 
+  const [rating, setRating] = useState(
+    selectedFavRate ? selectedFavRate.rating : null,
+  );
+
+  const [favorite, setFavorite] = useState(
+    selectedFavRate ? selectedFavRate.favorite : null,
+  );
+
   const toggleBeerFav = (status) => {
-    setFavorite(status);
+    setFavorite((prevState) => !prevState);
+    setRating(rating);
     dispatch(
       updateRateFav({
         id: selectedBeer.id,
         favorite: status,
-        rating: rating,
       }),
     );
   };
 
-  const toggleBeerRate = useCallback(
-    (score) => {
-      setRating(score);
-      setFavorite(favorite);
-      dispatch(
-        updateRateFav({
-          id: selectedBeer.id,
-          rating: score,
-        }),
-      );
-    },
-    [setRating, dispatch],
-  );
-  console.log('hello from details');
-  useEffect(() => {
-    selectedFavRate ? setFavorite(selectedFavRate.favorite) : null;
-    selectedFavRate ? setRating(selectedFavRate.rating) : null;
-  }, []);
+  const toggleBeerRate = (score) => {
+    setRating(score);
+    dispatch(
+      updateRateFav({
+        id: selectedBeer.id,
+        rating: score,
+      }),
+    );
+  };
 
+  console.log('hello from details')
   return (
     <View>
       <ScrollView>
@@ -122,7 +119,7 @@ const BeerDetails = (props) => {
             color="salmon"
             size={35}
             style={styles.FloatingButtonStyle}
-            onPress={() => toggleBeerFav(true)}
+            onPress={() => toggleBeerFav(!favorite)}
           />
         ) : (
           <Icon
@@ -131,7 +128,7 @@ const BeerDetails = (props) => {
             color="salmon"
             size={35}
             style={styles.FloatingButtonStyle}
-            onPress={() => toggleBeerFav(false)}
+            onPress={() => toggleBeerFav(!favorite)}
           />
         )}
       </TouchableOpacity>
