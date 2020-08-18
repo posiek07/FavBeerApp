@@ -15,7 +15,7 @@ import {Card} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 
 const FavoriteScreen = (props) => {
-  const beers = useSelector((state) => state.beers.filteredBeers);
+  const beers = useSelector((state) => state.beers.beers);
   const beersFavRate = useSelector((state) => state.beers.beersFavRate);
 
   const favResult = beersFavRate

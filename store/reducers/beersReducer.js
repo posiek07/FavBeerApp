@@ -21,8 +21,9 @@ const fetchBeersStart = (state, action) => {
 const fetchBeersSuccess = (state, action) => {
   return updateObject(state, {
     loading: false,
-    beers: action.beers,
-    filteredBeers: action.beers,
+    beers: action.beers.beers,
+    filteredBeers: action.beers.beers,
+    beersFavRate: action.beers.favRate,
   });
 };
 
@@ -71,10 +72,10 @@ const reducer = (state = initialState, action) => {
           ? (updatedFavRateBeers[existingIndex].rating =
               action.beerFavRate.rating)
           : null;
+
         return {...state, beersFavRate: updatedFavRateBeers};
       } else {
         const beerFavRate = action.beerFavRate;
-        console.log;
         return {...state, beersFavRate: state.beersFavRate.concat(beerFavRate)};
       }
     default:

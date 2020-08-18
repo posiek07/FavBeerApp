@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {HeaderButton} from 'react-navigation-header-buttons';
 import Icon from 'react-native-vector-icons/Ionicons';
 

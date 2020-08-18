@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -23,6 +23,8 @@ const BeerDetails = (props) => {
   const avalibleBeers = useSelector((state) => state.beers.beers);
   const rateFavBeers = useSelector((state) => state.beers.beersFavRate);
 
+  console.log(rateFavBeers);
+
   const beerId = props.navigation.getParam('beerId');
 
   const selectedBeer = avalibleBeers.find((beer) => beer.id === beerId);
@@ -39,7 +41,6 @@ const BeerDetails = (props) => {
 
   const toggleBeerFav = (status) => {
     setFavorite((prevState) => !prevState);
-    setRating(rating);
     dispatch(
       updateRateFav({
         id: selectedBeer.id,
@@ -58,7 +59,7 @@ const BeerDetails = (props) => {
     );
   };
 
-  console.log('hello from details')
+  console.log('hello from details');
   return (
     <View>
       <ScrollView>

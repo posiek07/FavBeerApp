@@ -10,7 +10,7 @@ import ListItem from '../components/ListItem';
 const dimensions = Dimensions.get('screen');
 
 const RatedBeers = (props) => {
-  const beers = useSelector((state) => state.beers.filteredBeers);
+  const beers = useSelector((state) => state.beers.beers);
   const dispatch = useDispatch();
 
   const beersFavRate = useSelector((state) => state.beers.beersFavRate);
@@ -21,8 +21,6 @@ const RatedBeers = (props) => {
       return a.rating - b.rating;
     })
     .map((object) => object.id);
-
-  console.log(ratedResult);
 
   const ratedBeers = beers.filter((beer) => {
     if (ratedResult.includes(beer.id)) {

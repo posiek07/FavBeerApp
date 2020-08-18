@@ -11,7 +11,6 @@ const ListItem = (props) => {
 
   const listItem = rateFavBeers.find((object) => object.id === beerId);
 
-  console.log(props);
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
