@@ -77,7 +77,6 @@ const tabScreenConfig = {
             <Icon title="Menu" name="star-outline" color="white" size={25} />
           );
         },
-        tabBarLabel: 'RatedBeers!',
         tabBarColor: Colors.accent,
         tabBarLabel:
           Platform.OS === 'android' ? (
@@ -93,6 +92,17 @@ const tabScreenConfig = {
       ? createMaterialBottomTabNavigator(tabScreenConfig, {
           activeColor: 'white',
           shifting: true,
+          navigationOptions: {
+            drawerLabel: 'Brewdog Collection',
+            drawerIcon: (drawerConfig) => (
+              <Icon
+                title="Menu"
+                name="beer-outline"
+                color={drawerConfig.tintColor}
+                size={25}
+              />
+            ),
+          },
         })
       : createBottomTabNavigator(tabScreenConfig, {
           tabBarOptions: {
@@ -111,6 +121,14 @@ const FavouritesNavigator = createStackNavigator(
   {
     navigationOptions: {
       drawerLabel: 'Favorites',
+      drawerIcon: (drawerConfig) => (
+        <Icon
+          title="Menu"
+          name="heart-outline"
+          color={drawerConfig.tintColor}
+          size={25}
+        />
+      ),
     },
     defaultNavigationOptions: defaultNavOptions,
   },
