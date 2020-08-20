@@ -22,25 +22,18 @@ import AuthScreen from '../screens/AuthScreen';
 import StartupScreen from '../screens/StartScreen';
 
 const defaultNavOptions = {
+  headerTitle: null,
   headerStyle: {
     backgroundColor: Platform.OS === 'android' ? Colors.primary : null,
   },
-  headerTitleStyle: {
-    fontFamily: 'open-sans-bold',
-  },
-  headerBackTitleStyle: {
-    fontfamily: 'open-sans',
-  },
   headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
+  headerTransparent: true,
 };
 
 const BeersNavigator = createStackNavigator(
   {
     Categories: {
       screen: MainScreen,
-      navigationOptions: {
-        headerTitle: 'All Beers',
-      },
     },
     BeerDetails: BeerDetails,
   },

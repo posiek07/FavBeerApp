@@ -180,6 +180,9 @@ const styles = StyleSheet.create({
 AuthScreen.navigationOptions = () => {
   return {
     headerTitle: 'Your Favorite BrewDogs',
+    headerTitleStyle: {
+      color: 'black',
+    },
   };
 };
 export default AuthScreen;

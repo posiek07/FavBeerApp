@@ -1,18 +1,10 @@
-import React, {useEffect} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Pressable,
-} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
-import * as actions from '../store/actions/actions';
+import React, {useCallback} from 'react';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/CustomHeaderButton';
-import {Card} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
+import CardItem from '../components/CardItem';
 
 const FavoriteScreen = (props) => {
   const beers = useSelector((state) => state.beers.beers);
@@ -29,46 +21,20 @@ const FavoriteScreen = (props) => {
     }
   });
 
+  const navigationDetails = (id, name) =>
+    props.navigation.navigate({
+      routeName: 'BeerDetails',
+      params: {
+        beerId: id,
+        beerTitle: name,
+      },
+    });
 
-  const cards = (itemData) => (
-    <View style={styles.cardWrapper}>
-      <Pressable
-        onPress={() => {
-          props.navigation.navigate({
-            routeName: 'BeerDetails',
-            params: {
-              beerId: itemData.item.id,
-              beerTitle: itemData.item.name,
-              // isFav: isFavorite,
-            },
-          });
-        }}>
-        <Card
-          containerStyle={{
-            padding: 3,
-            margin: 5,
-            flex: 1,
-            flexDirection: 'column',
-          }}
-          key={itemData.item.id}
-          title={itemData.item.name}
-          titleStyle={styles.cardTitle}
-          titleNumberOfLines={3}>
-          <View style={styles.imageWrap}>
-            <Image
-              resizeMode="contain"
-              source={{uri: itemData.item.image_url}}
-              style={styles.image}
-            />
-          </View>
-          <View style={{marginTop: 20}}>
-            <Text style={{fontFamily: 'Roboto-Italic'}}>
-              {itemData.item.tagline}
-            </Text>
-          </View>
-        </Card>
-      </Pressable>
-    </View>
+  const navigateToBeerDetails = useCallback(
+    (id, name) => {
+      navigationDetails(id, name);
+    },
+    [navigationDetails],
   );
 
   return (
@@ -79,7 +45,14 @@ const FavoriteScreen = (props) => {
           data={favoriteBeers}
           numColumns={2}
           keyExtractor={(item) => item.id}
-          renderItem={cards}
+          renderItem={(itemData) => (
+            <CardItem
+              navigation={() =>
+                navigateToBeerDetails(itemData.item.id, itemData.item.name)
+              }
+              item={itemData.item}
+            />
+          )}
           initialNumToRender={2}
           columnWrapperStyle={styles.columnWrapper}
         />
@@ -90,13 +63,12 @@ const FavoriteScreen = (props) => {
 
 FavoriteScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: 'Favorites',
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
         <Item
           title="Menu"
           iconName="menu-outline"
-          color="white"
+          color="black"
           onPress={() => {
             navData.navigation.toggleDrawer();
           }}
@@ -107,31 +79,6 @@ FavoriteScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: 'white',
-  },
-  imageWrap: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    height: 200,
-    width: '100%',
-  },
-  cardWrapper: {
-    flex: 0.5,
-    justifyContent: 'flex-start',
-    margin: 0,
-  },
-  image: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-  cardTitle: {
-    fontFamily: 'Frijole-Regular',
-    fontWeight: 'normal',
-    fontSize: 15,
-    minHeight: 65,
-  },
   columnWrapper: {
     minHeight: 300,
   },
