@@ -11,6 +11,7 @@ import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import beersReducer from './store/reducers/beersReducer';
 import thunk from 'redux-thunk';
+import authReducer from './store/reducers/auth';
 
 // const composeEnhancers =
 //   process.env.NODE_ENV === 'development'
@@ -19,6 +20,7 @@ import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   beers: beersReducer,
+  auth: authReducer,
 });
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));

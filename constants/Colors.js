@@ -1,6 +1,6 @@
 export default {
-  primary: '#D58200',
+  primary: '#029BC8',
   accent: '#F9B222',
   danger: 'salmon',
-  grey: '#707070'
+  grey: '#707070',
 };

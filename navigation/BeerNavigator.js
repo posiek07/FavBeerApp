@@ -1,16 +1,25 @@
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import {
+  createDrawerNavigator,
+  DrawerNavigatorItems,
+} from 'react-navigation-drawer';
+import {useDispatch} from 'react-redux';
+import * as authActions from '../store/actions/auth';
+
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import MainScreen from '../screens/MainScreen';
 import BeerDetails from '../screens/BeerDetails';
-import {Text, Platform} from 'react-native';
+import {Text, Platform, SafeAreaView, Button, View} from 'react-native';
 import Colors from '../constants/Colors';
 import RatedBeers from '../screens/RatedBeers';
 import React from 'react';
+
 import FavouritesScreen from '../screens/FavoriteScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AuthScreen from '../screens/AuthScreen';
+import StartupScreen from '../screens/StartScreen';
 
 const defaultNavOptions = {
   headerStyle: {
@@ -36,7 +45,6 @@ const BeersNavigator = createStackNavigator(
     BeerDetails: BeerDetails,
   },
   {
-    // initialRouteName: "Categories",
     defaultNavigationOptions: defaultNavOptions,
   },
 );
@@ -98,7 +106,7 @@ const tabScreenConfig = {
               <Icon
                 title="Menu"
                 name="beer-outline"
-                color={drawerConfig.tintColor}
+                color={Colors.primary}
                 size={25}
               />
             ),
@@ -134,6 +142,15 @@ const FavouritesNavigator = createStackNavigator(
   },
 );
 
+const AuthNavigator = createStackNavigator(
+  {
+    Auth: AuthScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  },
+);
+
 const MainNavigator = createDrawerNavigator(
   {
     Beers: BottomNavigator,
@@ -141,13 +158,43 @@ const MainNavigator = createDrawerNavigator(
   },
   {
     contentOptions: {
-      activeTintColor: Colors.danger,
+      activeTintColor: Colors.primary,
       labelStyle: {
         fontSize: 25,
         padding: 20,
       },
     },
+    contentComponent: (props) => {
+      const dispatch = useDispatch();
+      return (
+        <View style={{flex: 1, padding: 20}}>
+          <SafeAreaView
+            forceInset={{top: 'always', horizontal: 'never'}}
+            style={{
+              height: '100%',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}>
+            <DrawerNavigatorItems {...props} />
+            <Button
+              title="Logout"
+              color={Colors.primary}
+              onPress={() => {
+                dispatch(authActions.logout());
+                // props.navigation.navigate("Auth");
+              }}
+            />
+          </SafeAreaView>
+        </View>
+      );
+    },
   },
 );
 
-export default createAppContainer(MainNavigator);
+const StartNavigation = createSwitchNavigator({
+  Startup: StartupScreen,
+  Auth: AuthNavigator,
+  Main: MainNavigator,
+});
+
+export default createAppContainer(StartNavigation);

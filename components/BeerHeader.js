@@ -20,7 +20,6 @@ const BeerHeader = (props) => {
   };
 
   const updateSearch = (text) => {
-    console.log(text);
     setSearch(text);
     saveFilters(text);
   };
