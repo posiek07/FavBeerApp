@@ -126,7 +126,7 @@ const setLogoutTimes = (expirationTime) => {
   return (dispatch) => {
     timer = setTimeout(() => {
       dispatch(logout());
-    }, expirationTime / 6);
+    }, expirationTime);
   };
 };
 

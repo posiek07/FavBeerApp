@@ -23,7 +23,6 @@ const BeerDetails = (props) => {
   const avalibleBeers = useSelector((state) => state.beers.beers);
   const rateFavBeers = useSelector((state) => state.beers.beersFavRate);
 
-
   const beerId = props.navigation.getParam('beerId');
 
   const selectedBeer = avalibleBeers.find((beer) => beer.id === beerId);
@@ -210,7 +209,8 @@ BeerDetails.navigationOptions = (navigationData) => {
   const beerTitle = navigationData.navigation.getParam('beerTitle');
 
   return {
-    headerTitle: beerTitle,
+    // headerTitle: beerTitle,
+    headerTintColor: 'black',
   };
 };
 

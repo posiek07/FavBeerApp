@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {SafeAreaView, Pressable, Dimensions} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from '../store/actions/actions';
@@ -35,19 +35,20 @@ const RatedBeers = (props) => {
     fetchData();
   }, []);
 
-  const cards = (itemData) => (
-    <Pressable
-      onPress={() => {
-        props.navigation.navigate({
-          routeName: 'BeerDetails',
-          params: {
-            beerId: itemData.item.id,
-            beerTitle: itemData.item.name,
-          },
-        });
-      }}>
-      <ListItem item={itemData.item} />
-    </Pressable>
+  const navigationDetails = (id, name) =>
+    props.navigation.navigate({
+      routeName: 'BeerDetails',
+      params: {
+        beerId: id,
+        beerTitle: name,
+      },
+    });
+
+  const navigateToBeerDetails = useCallback(
+    (id, name) => {
+      navigationDetails(id, name);
+    },
+    [navigationDetails],
   );
 
   return (
@@ -58,7 +59,14 @@ const RatedBeers = (props) => {
           data={ratedBeers}
           numColumns={1}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={cards}
+          renderItem={(itemData) => (
+            <ListItem
+              navigation={() =>
+                navigateToBeerDetails(itemData.item.id, itemData.item.name)
+              }
+              item={itemData.item}
+            />
+          )}
           initialNumToRender={2}
         />
       </SafeAreaView>
@@ -68,16 +76,16 @@ const RatedBeers = (props) => {
 
 RatedBeers.navigationOptions = (navData) => {
   return {
-    headerTitle: 'Rated Beers',
-    headerStyle: {
-      backgroundColor: '#F9B222',
-    },
+    headerTitle: null,
+    // headerStyle: {
+    //   backgroundColor: '#F9B222',
+    // },
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
         <Item
           title="Menu"
           iconName="menu-outline"
-          color="white"
+          color="black"
           onPress={() => {
             navData.navigation.toggleDrawer();
           }}
