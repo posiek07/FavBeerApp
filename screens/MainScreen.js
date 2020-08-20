@@ -20,7 +20,7 @@ const mainScreen = (props) => {
   const dispatch = useDispatch();
 
   const fetchData = () => {
-    dispatch(actions.fetchBeers());
+    dispatch(actions.fetchData());
   };
 
   useEffect(() => {

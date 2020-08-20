@@ -29,9 +29,11 @@ export const setFilters = (filtersSettings) => {
 };
 
 export const updateRateFav = (beerFavRate) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const response = await fetch(
-      `https://rn-shop-app-e9c4d.firebaseio.com/favrate/${beerFavRate.id}.json`,
+      `https://rn-shop-app-e9c4d.firebaseio.com/favrate/${userId}/${beerFavRate.id}.json?auth=${token}`,
       {
         method: 'PATCH',
         headers: {
@@ -47,7 +49,7 @@ export const updateRateFav = (beerFavRate) => {
       },
     );
 
-    const resData = await response.json();
+    const responseData = await response.json();
 
     const updatedBeerFavRate = {
       id: beerFavRate.id,
@@ -63,8 +65,10 @@ export const updateRateFav = (beerFavRate) => {
   };
 };
 
-export const fetchBeers = () => {
-  return (dispatch) => {
+export const fetchData = () => {
+  return (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     dispatch(fetchBeersStart());
     (async () => {
       const [res1, res2, res3, res4, res5, res6] = await Promise.all([
@@ -73,12 +77,17 @@ export const fetchBeers = () => {
         axios.get('https://api.punkapi.com/v2/beers?page=3&per_page=80'),
         axios.get('https://api.punkapi.com/v2/beers?page=4&per_page=80'),
         axios.get('https://api.punkapi.com/v2/beers?page=5&per_page=80'),
-        axios.get('https://rn-shop-app-e9c4d.firebaseio.com/favrate.json'),
-      ]);
+        axios.get(
+          `https://rn-shop-app-e9c4d.firebaseio.com/favrate/${userId}.json`,
+        ),
+      ]).catch((error) => {
+        throw error;
+      });
 
       const favRate = res6.data;
 
-      const favRateArray = Object.values(favRate);
+      console.log(favRate);
+      const favRateArray = Object.values(favRate ? favRate : []);
 
       const fetchedBeers = {
         beers: [
@@ -93,12 +102,5 @@ export const fetchBeers = () => {
 
       dispatch(fetchBeersSuccess(fetchedBeers));
     })();
-    // (async () => {
-    //   const res = axios
-    //     .get('https://rn-shop-app-e9c4d.firebaseio.com/favrate.json')
-    //     .then((res) => console.log(res.data));
-
-    //   // dispatch(fetchBeersSuccess(fetchedBeers));
-    // })();
   };
 };

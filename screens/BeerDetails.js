@@ -23,7 +23,6 @@ const BeerDetails = (props) => {
   const avalibleBeers = useSelector((state) => state.beers.beers);
   const rateFavBeers = useSelector((state) => state.beers.beersFavRate);
 
-  console.log(rateFavBeers);
 
   const beerId = props.navigation.getParam('beerId');
 
@@ -59,7 +58,6 @@ const BeerDetails = (props) => {
     );
   };
 
-  console.log('hello from details');
   return (
     <View>
       <ScrollView>

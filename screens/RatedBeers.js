@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Pressable, Dimensions} from 'react-native';
+import {SafeAreaView, Pressable, Dimensions} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from '../store/actions/actions';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
@@ -28,7 +28,7 @@ const RatedBeers = (props) => {
     }
   });
   const fetchData = () => {
-    dispatch(actions.fetchBeers());
+    dispatch(actions.fetchData());
   };
 
   useEffect(() => {
@@ -36,7 +36,6 @@ const RatedBeers = (props) => {
   }, []);
 
   const cards = (itemData) => (
-    // <View style={styles.cardWrapper}>
     <Pressable
       onPress={() => {
         props.navigation.navigate({
@@ -44,13 +43,11 @@ const RatedBeers = (props) => {
           params: {
             beerId: itemData.item.id,
             beerTitle: itemData.item.name,
-            // isFav: isFavorite,
           },
         });
       }}>
       <ListItem item={itemData.item} />
     </Pressable>
-    // </View>
   );
 
   return (
@@ -63,14 +60,11 @@ const RatedBeers = (props) => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={cards}
           initialNumToRender={2}
-          // columnWrapperStyle={styles.columnWrapper}
         />
       </SafeAreaView>
     </>
   );
 };
-
-const styles = StyleSheet.create({});
 
 RatedBeers.navigationOptions = (navData) => {
   return {

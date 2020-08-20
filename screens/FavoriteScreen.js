@@ -29,7 +29,6 @@ const FavoriteScreen = (props) => {
     }
   });
 
-  console.log('hello from favorite');
 
   const cards = (itemData) => (
     <View style={styles.cardWrapper}>
