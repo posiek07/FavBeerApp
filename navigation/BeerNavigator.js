@@ -20,6 +20,7 @@ import FavouritesScreen from '../screens/FavoriteScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AuthScreen from '../screens/AuthScreen';
 import StartupScreen from '../screens/StartScreen';
+import BeerIngredients from '../screens/BeerIngredients';
 
 const defaultNavOptions = {
   headerTitle: null,
@@ -36,6 +37,8 @@ const BeersNavigator = createStackNavigator(
       screen: MainScreen,
     },
     BeerDetails: BeerDetails,
+    BeerIngredients: BeerIngredients,
+    //BeerComments: BeerComments
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -45,7 +48,6 @@ const BeersNavigator = createStackNavigator(
 const RateNavigator = createStackNavigator(
   {
     RatedBeers: RatedBeers,
-    BeerDetails: BeerDetails,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -151,6 +153,7 @@ const MainNavigator = createDrawerNavigator(
   },
   {
     contentOptions: {
+      drawerBackgroundColor: 'red',
       activeTintColor: Colors.primary,
       labelStyle: {
         fontSize: 25,

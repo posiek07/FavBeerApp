@@ -57,17 +57,24 @@ const BeerDetails = (props) => {
     );
   };
 
+  const reciepeNavigationHandler = () => {
+    props.navigation.navigate({
+      routeName: 'BeerIngredients',
+      params: {
+        beerId: beerId,
+      },
+    });
+  };
+
   return (
-    <View>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.imageWrapper}>
-            <Image
-              source={{uri: selectedBeer.image_url}}
-              style={styles.image}
-            />
-          </View>
-          <View style={styles.descriptionWrapper}>
+    <View style={styles.layout}>
+      <View style={styles.container}>
+        <View style={styles.imageWrapper}>
+          <Image source={{uri: selectedBeer.image_url}} style={styles.image} />
+        </View>
+
+        <View style={styles.descriptionWrapper}>
+          <ScrollView>
             <Text style={styles.name}>{selectedBeer.name}</Text>
             <Text style={styles.tagline}>"{selectedBeer.tagline}"</Text>
             <View>
@@ -104,19 +111,36 @@ const BeerDetails = (props) => {
               {selectedBeer.first_brewed}
             </DefaultText>
             <DefaultText>{selectedBeer.description}</DefaultText>
-          </View>
+          </ScrollView>
         </View>
-      </ScrollView>
+      </View>
+
       <TouchableOpacity
         activeOpacity={0.1}
         style={styles.TouchableOpacityStyle}>
+        <Icon
+          title="rating"
+          name="star-half-outline"
+          color="orange"
+          size={35}
+          style={styles.floatingReceiptStyle}
+          onPress={() => toggleBeerFav(!favorite)}
+        />
+        <Icon
+          title="receipe"
+          name="receipt-outline"
+          color="black"
+          size={35}
+          style={styles.floatingReceiptStyle}
+          onPress={reciepeNavigationHandler}
+        />
         {!favorite ? (
           <Icon
             title="heart"
             name="heart-outline"
             color="salmon"
             size={35}
-            style={styles.FloatingButtonStyle}
+            style={styles.floatingHeartStyle}
             onPress={() => toggleBeerFav(!favorite)}
           />
         ) : (
@@ -125,7 +149,7 @@ const BeerDetails = (props) => {
             name="heart"
             color="salmon"
             size={35}
-            style={styles.FloatingButtonStyle}
+            style={styles.floatingHeartStyle}
             onPress={() => toggleBeerFav(!favorite)}
           />
         )}
@@ -135,13 +159,15 @@ const BeerDetails = (props) => {
 };
 
 const styles = StyleSheet.create({
+  // layout: {backgroundColor: '#fcfcfc'},
   container: {
     backgroundColor: '#fcfcfc',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   imageWrapper: {
-    maxHeight: dimensions.height / 1.4,
+    paddingTop: 50,
+    maxHeight: dimensions.height / 1.3,
     flex: 1,
     justifyContent: 'flex-start',
     padding: 10,
@@ -152,6 +178,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   descriptionWrapper: {
+    paddingTop: 50,
+
     flex: 2,
   },
   name: {
@@ -189,19 +217,27 @@ const styles = StyleSheet.create({
 
   TouchableOpacityStyle: {
     position: 'absolute',
-    width: 50,
+    flexDirection: 'row',
+    width: '100%',
     height: 50,
     alignItems: 'center',
-    justifyContent: 'center',
-    right: 5,
-    top: 5,
+    justifyContent: 'flex-end',
+    right: 7,
+    top: 7,
   },
 
-  FloatingButtonStyle: {
+  floatingHeartStyle: {
+    marginLeft: 60,
     width: 32,
     height: 50,
     opacity: 0.7,
     //backgroundColor:'black'
+  },
+  floatingReceiptStyle: {
+    marginLeft: 60,
+    width: 32,
+    height: 50,
+    opacity: 0.7,
   },
 });
 
@@ -211,6 +247,8 @@ BeerDetails.navigationOptions = (navigationData) => {
   return {
     // headerTitle: beerTitle,
     headerTintColor: 'black',
+    headerTransparent: true,
+    headerStyle: {backgroundColor: '#fcfcfc'},
   };
 };
 
