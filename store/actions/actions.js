@@ -86,21 +86,32 @@ export const fetchData = () => {
 
       const favRate = res6.data;
 
-      console.log(favRate);
       const favRateArray = Object.values(favRate ? favRate : []);
 
-      const fetchedBeers = {
-        beers: [
-          ...res1.data,
-          ...res2.data,
-          ...res3.data,
-          ...res4.data,
-          ...res5.data,
-        ],
+      const fetchedBeers = [
+        ...res1.data,
+        ...res2.data,
+        ...res3.data,
+        ...res4.data,
+        ...res5.data,
+      ];
+
+      fetchedBeers.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const fetchedData = {
+        beers: fetchedBeers,
         favRate: favRateArray ? favRateArray : [],
       };
 
-      dispatch(fetchBeersSuccess(fetchedBeers));
+      dispatch(fetchBeersSuccess(fetchedData));
     })();
   };
 };

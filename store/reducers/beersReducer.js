@@ -46,7 +46,12 @@ const reducer = (state = initialState, action) => {
           return false;
         }
         if (
-          beer.name.toLowerCase().includes(appliedFilters.search.toLowerCase())
+          beer.name
+            .toLowerCase()
+            .includes(appliedFilters.search.toLowerCase()) ||
+          beer.tagline
+            .toLowerCase()
+            .includes(appliedFilters.search.toLowerCase())
         ) {
           return true;
         } else {

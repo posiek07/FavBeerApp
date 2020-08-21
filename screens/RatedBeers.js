@@ -6,6 +6,7 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/CustomHeaderButton';
 import {FlatList} from 'react-native-gesture-handler';
 import ListItem from '../components/ListItem';
+import {NavigationActions} from 'react-navigation';
 
 const dimensions = Dimensions.get('screen');
 
@@ -15,18 +16,32 @@ const RatedBeers = (props) => {
 
   const beersFavRate = useSelector((state) => state.beers.beersFavRate);
 
-  const ratedResult = beersFavRate
-    .filter((object) => Number.isFinite(object.rating))
-    .sort((a, b) => {
-      return a.rating - b.rating;
-    })
-    .map((object) => object.id);
+  const ratedResult = beersFavRate.filter((object) =>
+    Number.isFinite(object.rating),
+  );
+  // .map((object) => object.id);
+
+  const result = [];
+
+  for (let i = 0; i < beersFavRate.length; i++) {
+    result.push({
+      ...beersFavRate[i],
+      ...beers.find((beer) => beer.id === beersFavRate[i].id),
+    });
+  }
+
+  result.sort((a, b) => b.rating - a.rating);
 
   const ratedBeers = beers.filter((beer) => {
-    if (ratedResult.includes(beer.id)) {
-      return beer;
+    const rateRes = beersFavRate.find((object) => {
+      object.id === beer.id;
+      return object;
+    });
+    if (rateRes.id === beer.id) {
+      return {...beer, rating: rateRes.rating};
     }
   });
+
   const fetchData = () => {
     dispatch(actions.fetchData());
   };
@@ -35,14 +50,18 @@ const RatedBeers = (props) => {
     fetchData();
   }, []);
 
-  const navigationDetails = (id, name) =>
+  const navigationDetails = (id, name) => {
     props.navigation.navigate({
-      routeName: 'BeerDetails',
-      params: {
-        beerId: id,
-        beerTitle: name,
-      },
+      routeName: 'Beers',
+      action: NavigationActions.navigate({
+        routeName: 'BeerDetails',
+        params: {
+          beerId: id,
+          beerTitle: name,
+        },
+      }),
     });
+  };
 
   const navigateToBeerDetails = useCallback(
     (id, name) => {
@@ -56,7 +75,7 @@ const RatedBeers = (props) => {
       <SafeAreaView>
         <FlatList
           style={{margin: 3}}
-          data={ratedBeers}
+          data={result}
           numColumns={1}
           keyExtractor={(item) => item.id.toString()}
           renderItem={(itemData) => (
