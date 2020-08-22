@@ -2,20 +2,13 @@ import React, {useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  View,
-  Text,
-  Image,
-  Pressable,
-  ActivityIndicator,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actions from '../store/actions/actions';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/CustomHeaderButton';
-import {Card} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 import BeerHeader from '../components/BeerHeader';
-import Colors from '../constants/Colors';
 import CardItem from '../components/CardItem';
 
 const mainScreen = (props) => {

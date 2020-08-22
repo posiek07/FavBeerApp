@@ -58,7 +58,7 @@ const tabScreenConfig = {
     Beers: {
       screen: BeersNavigator,
       navigationOptions: {
-        tabBarIcon: (tabInfo) => {
+        tabBarIcon: () => {
           return (
             <Icon title="Menu" name="beer-outline" color="white" size={25} />
           );
@@ -75,7 +75,7 @@ const tabScreenConfig = {
     RatedBeers: {
       screen: RateNavigator,
       navigationOptions: {
-        tabBarIcon: (tabInfo) => {
+        tabBarIcon: () => {
           return (
             <Icon title="Menu" name="star-outline" color="white" size={25} />
           );
