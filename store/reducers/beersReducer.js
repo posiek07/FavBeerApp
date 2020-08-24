@@ -57,7 +57,6 @@ const reducer = (state = initialState, action) => {
         } else {
           return false;
         }
-        return true;
       });
       return {
         ...state,

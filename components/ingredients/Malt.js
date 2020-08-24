@@ -1,14 +1,14 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-const Malt = () => {
-    return (
-        <View>
-            <Text></Text>
-        </View>
-    )
-}
+const Malt = (props) => {
+  return (
+    <View>
+      
+    </View>
+  );
+};
 
-export default Malt
+export default Malt;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

@@ -5,7 +5,7 @@ import * as actions from '../store/actions/actions';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/CustomHeaderButton';
 import {FlatList} from 'react-native-gesture-handler';
-import ListItem from '../components/ListItem';
+import ListItem from '../components/ListItem/ListItem';
 import {NavigationActions} from 'react-navigation';
 
 const RatedBeers = (props) => {

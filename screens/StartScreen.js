@@ -8,6 +8,10 @@ const StartupScreen = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    
+  })
+
+  useEffect(() => {
     const tryLogin = async () => {
       const userData = await AsyncStorage.getItem('userData');
 

@@ -8,7 +8,7 @@ import Colors from '../constants/Colors';
 const BeerHeader = (props) => {
   const dispatch = useDispatch();
 
-  const [abv, setAbv] = useState(10);
+  const [abv, setAbv] = useState(15);
   const [search, setSearch] = useState('');
 
   const saveFilters = (text) => {
