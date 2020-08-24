@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AuthScreen from '../screens/AuthScreen';
 import StartupScreen from '../screens/StartScreen';
 import BeerIngredients from '../screens/BeerIngredients';
+import {googleLogout} from '../store/actions/googleAuth';
 
 const defaultNavOptions = {
   headerTitle: null,
@@ -175,10 +176,11 @@ const MainNavigator = createDrawerNavigator(
             <Button
               title="Logout"
               color={Colors.primary}
-              onPress={() => {
-                dispatch(authActions.logout());
+              onPress={
+                () => dispatch(authActions.logout())
+                // dispatch(googleLogout())
                 // props.navigation.navigate("Auth");
-              }}
+              }
             />
           </SafeAreaView>
         </View>

@@ -32,24 +32,28 @@ export const updateRateFav = (beerFavRate) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
-    const response = await fetch(
-      `https://rn-shop-app-e9c4d.firebaseio.com/favrate/${userId}/${beerFavRate.id}.json?auth=${token}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: beerFavRate.id,
-          favorite:
-            beerFavRate.favorite !== 'undefined' ? beerFavRate.favorite : null,
-          rating:
-            beerFavRate.rating !== 'undefinded' ? beerFavRate.rating : null,
-        }),
+
+    let firebaseFavRateUrl;
+
+    isFinite(userId)
+      ? (firebaseFavRateUrl = `https://favbeerapp.firebaseio.com/favrate/${userId}/${beerFavRate.id}.json?access_token=${token}`)
+      : (firebaseFavRateUrl = `https://favbeerapp.firebaseio.com/favrate/${userId}/${beerFavRate.id}.json?auth=${token}`);
+
+    const response = await fetch(firebaseFavRateUrl, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify({
+        id: beerFavRate.id,
+        favorite:
+          beerFavRate.favorite !== 'undefined' ? beerFavRate.favorite : null,
+        rating: beerFavRate.rating !== 'undefinded' ? beerFavRate.rating : null,
+      }),
+    });
 
     const responseData = await response.json();
+    console.log(responseData);
 
     const updatedBeerFavRate = {
       id: beerFavRate.id,
@@ -77,14 +81,13 @@ export const fetchData = () => {
         axios.get('https://api.punkapi.com/v2/beers?page=3&per_page=80'),
         axios.get('https://api.punkapi.com/v2/beers?page=4&per_page=80'),
         axios.get('https://api.punkapi.com/v2/beers?page=5&per_page=80'),
-        axios.get(
-          `https://rn-shop-app-e9c4d.firebaseio.com/favrate/${userId}.json`,
-        ),
+        axios.get(`https://favbeerapp.firebaseio.com/favrate/${userId}/.json`),
       ]).catch((error) => {
         throw error;
       });
 
       const favRate = res6.data;
+      console.log(favRate);
 
       const favRateArray = Object.values(favRate ? favRate : []);
 

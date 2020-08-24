@@ -13,6 +13,7 @@ import Card from '../components/Card';
 import Colors from '../constants/Colors';
 import {useDispatch} from 'react-redux';
 import * as authActions from '../store/actions/auth';
+import {googleLogIn, googleLogout} from '../store/actions/googleAuth';
 
 const formReducer = (state, action) => {
   if (action.type === 'INPUT_UPDATE') {
@@ -84,6 +85,17 @@ const AuthScreen = (props) => {
     }
   };
 
+  const googleAuthHandler = async () => {
+    console.log('blblblb');
+    setError(null), setIsLoading(true);
+    try {
+      await dispatch(googleLogIn());
+      props.navigation.navigate('Beers');
+    } catch (err) {
+      setError(err.message);
+      setIsLoading(false);
+    }
+  };
   const inputChangeHandler = useCallback(
     (inputId, inputValue, inputValidity) => {
       dispatchForm({
@@ -147,6 +159,12 @@ const AuthScreen = (props) => {
                   setIsSignUp((prevState) => !prevState);
                 }}
               />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button title="Google signUp" onPress={googleAuthHandler} />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button title="Google logout" onPress={() => googleLogout()} />
             </View>
           </ScrollView>
         </Card>

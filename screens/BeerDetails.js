@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import DefaultText from '../components/DefaultText';
 import {Rating} from 'react-native-elements';
 import {updateRateFav} from '../store/actions/actions';
+import Card from '../components/Card';
 
 const dimensions = Dimensions.get('screen');
 
@@ -110,7 +111,22 @@ const BeerDetails = (props) => {
               />
               {selectedBeer.first_brewed}
             </DefaultText>
-            <DefaultText>{selectedBeer.description}</DefaultText>
+            <Card style={styles.card}>
+              <DefaultText myStyle={styles.descriptionTitle}>
+                Description:
+              </DefaultText>
+              <DefaultText>{selectedBeer.description}</DefaultText>
+            </Card>
+            <Card style={styles.card}>
+              <DefaultText myStyle={styles.descriptionTitle}>
+                Food Pairing:
+              </DefaultText>
+              {selectedBeer.food_pairing.map((food, index) => (
+                <DefaultText>
+                  {index + 1}. {food}
+                </DefaultText>
+              ))}
+            </Card>
           </ScrollView>
         </View>
       </View>
@@ -206,6 +222,14 @@ const styles = StyleSheet.create({
   bigDetailsTitle: {
     fontSize: 20,
     paddingTop: 15,
+  },
+  card: {
+    marginBottom: 10,
+    padding: 10,
+  },
+  descriptionTitle: {
+    fontFamily: 'Roboto-Bold',
+    paddingBottom: 10,
   },
   description: {},
   MainContainer: {
